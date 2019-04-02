@@ -30,7 +30,7 @@
 
 	//must place on a wall and user must not be inside a closet/mecha/whatever
 	var/turf/W = A
-	if (!iswall(W) || !isturf(user.loc))
+	if (!W.is_wall() || !isturf(user.loc))
 		to_chat(user, "<span class='warning'>You can't place this here!</span>")
 		return
 
@@ -61,7 +61,13 @@
 	var/obj/structure/sign/poster/P = new(user.loc, placement_dir=get_dir(user, W), serial=serial_number)
 
 	flick("poster_being_set", P)
-	//playsound(W, 'sound/items/poster_being_created.ogg', 100, 1) //why the hell does placing a poster make printer sounds?
+	playsound(W, 'sound/items/poster_being_created.ogg', 100, 1) //why the hell does placing a poster make printer sounds?
+	// Time to place is equal to the time needed to play the flick animation
+	if(do_after(user, 28, W) && W.is_wall() && !ArePostersOnWall(W, P))
+		user.visible_message("<span class='notice'>\The [user] has placed a poster on \the [W].</span>","<span class='notice'>You have placed the poster on \the [W].</span>")
+	else
+		// We cannot rely on user being on the appropriate turf when placement fails
+		P.roll_and_drop(get_step(W, turn(placement_dir, 180)))
 
 	var/oldsrc = src //get a reference to src so we can delete it after detaching ourselves
 	src = null
