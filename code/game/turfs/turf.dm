@@ -36,13 +36,44 @@
 			src.Entered(AM)
 			return
 
+/turf/Initialize(mapload, ...)
+	. = ..()
 	if(dynamic_lighting)
 		luminosity = 0
 	else
 		luminosity = 1
 
+	opaque_counter = opacity
+
+	if (mapload && permit_ao)
+		queue_ao()
+
+	if (z_flags & ZM_MIMIC_BELOW)
+		setup_zmimic(mapload)
+
+/turf/on_update_icon()
+	update_flood_overlay()
+	queue_ao(FALSE)
+
+/turf/proc/update_flood_overlay()
+	if(is_flooded(absolute = TRUE))
+		if(!flood_object)
+			flood_object = new(src)
+	else if(flood_object)
+		QDEL_NULL(flood_object)
+
 /turf/Destroy()
 	remove_cleanables()
+	fluid_update()
+	REMOVE_ACTIVE_FLUID_SOURCE(src)
+
+	if (ao_queued)
+		SSao.queue -= src
+		ao_queued = 0
+
+	if (bound_overlay)
+		QDEL_NULL(bound_overlay)
+
 	..()
 	return QDEL_HINT_IWILLGC
 

@@ -29,33 +29,10 @@
 	name = "open space"
 	icon = 'icons/turf/space.dmi'
 	icon_state = ""
-	plane = OPENSPACE_PLANE
 	density = 0
 	pathweight = 100000 //Seriously, don't try and path over this one numbnuts
 
-	var/turf/below
-
-/turf/simulated/open/post_change()
-	..()
-	update()
-
-/turf/simulated/open/Initialize()
-	. = ..()
-	update()
-
-
-/turf/simulated/open/proc/update()
-	plane = OPENSPACE_PLANE + (src.z * PLANE_DIFFERENCE)
-	below = GetBelow(src)
-	GLOB.turf_changed_event.register(below, src,/turf/simulated/open/proc/turf_change)
-	GLOB.exited_event.register(below, src, /turf/simulated/open/proc/handle_move)
-	GLOB.entered_event.register(below, src, /turf/simulated/open/proc/handle_move)
-	levelupdate()
-	for(var/atom/movable/A in src)
-		A.fall()
-	SSopen_space.add_turf(src, 1)
-	update_icon()
-
+	z_flags = ZM_MIMIC_DEFAULTS | ZM_MIMIC_OVERWRITE | ZM_MIMIC_NO_AO | ZM_ALLOW_ATMOS
 
 /turf/simulated/open/update_dirt()
 	return 0
@@ -74,8 +51,6 @@
 /turf/simulated/open/levelupdate()
 	for(var/obj/O in src)
 		O.hide(0)
-
-
 
 /turf/simulated/open/examine(mob/user, distance, infix, suffix)
 	if(..(user, 2))
@@ -150,9 +125,8 @@
 		if (R.use(1))
 			to_chat(user, "<span class='notice'>You lay down the support lattice.</span>")
 			playsound(src, 'sound/weapons/Genhit.ogg', 50, 1)
-			new /obj/structure/lattice(locate(src.x, src.y, src.z))
-			//Update turfs
 			SSopen_space.add_turf(src, 1)
+			new /obj/structure/lattice(locate(src.x, src.y, src.z), R.material.name)
 		return
 
 	if (istype(C, /obj/item/stack/tile))

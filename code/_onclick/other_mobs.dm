@@ -60,6 +60,15 @@
 
 	else if(TK in mutations)
 		A.attack_tk(src)
+	if((istype(A, /turf/simulated/floor) || istype(A, /turf/unsimulated/floor) || istype(A, /obj/structure/lattice) || istype(A, /obj/structure/catwalk)) && isturf(loc) && bound_overlay && !is_physically_disabled()) //Climbing through openspace
+		return climb_up(A)
+
+	if(gloves)
+		var/obj/item/clothing/gloves/G = gloves
+		if(istype(G) && G.Touch(A,0)) // for magic gloves
+			return TRUE
+
+	. = ..()
 
 /mob/living/RestrainedClickOn(var/atom/A)
 	return
