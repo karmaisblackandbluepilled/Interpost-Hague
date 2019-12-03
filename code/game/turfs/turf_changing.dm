@@ -57,7 +57,10 @@
 	// Run the Destroy() chain.
 	qdel(src)
 
-	var/turf/simulated/W = new N( locate(src.x, src.y, src.z) )
+	var/turf/simulated/W = new N(src)
+
+	if (permit_ao)
+		regenerate_ao()
 
 	W.opaque_counter = opaque_counter
 
