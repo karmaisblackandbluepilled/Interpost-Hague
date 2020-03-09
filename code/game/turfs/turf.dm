@@ -55,17 +55,19 @@
 	update_flood_overlay()
 	queue_ao(FALSE)
 
+/*
 /turf/proc/update_flood_overlay()
 	if(is_flooded(absolute = TRUE))
 		if(!flood_object)
 			flood_object = new(src)
 	else if(flood_object)
 		QDEL_NULL(flood_object)
+*/
 
 /turf/Destroy()
 	remove_cleanables()
-	fluid_update()
-	REMOVE_ACTIVE_FLUID_SOURCE(src)
+	//fluid_update()
+	//REMOVE_ACTIVE_FLUID_SOURCE(src)
 
 	if (ao_queued)
 		SSao.queue -= src

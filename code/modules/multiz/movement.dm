@@ -22,6 +22,7 @@
 	var/turf/start = loc
 	if(!istype(start))
 		to_chat(src, "<span class='notice'>You are unable to move from here.</span>")
+/*
 	var/turf/simulated/open/O = GetAbove(src)
 	var/atom/climb_target
 	if(istype(O))
@@ -43,6 +44,7 @@
 	//checks and handles pulled items across z levels
 	if(!pulling)
 		return 0
+*/
 
 	var/turf/destination = (direction == UP) ? GetAbove(src) : GetBelow(src)
 	if(!destination)

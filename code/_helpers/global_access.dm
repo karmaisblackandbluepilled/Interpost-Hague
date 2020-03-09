@@ -57,10 +57,6 @@
 			return global.SSobj;
 		if("SSopen_space")
 			return global.SSopen_space;
-		if("SSpersistence")
-			return global.SSpersistence;
-		if("SSplants")
-			return global.SSplants;
 		if("SSprocessing")
 			return global.SSprocessing;
 		if("SSskybox")
@@ -71,12 +67,6 @@
 			return global.SSvines;
 		if("SSwireless")
 			return global.SSwireless;
-		if("SSvote")
-			return global.SSvote;
-		if("SSwebhooks")
-			return global.SSwebhooks;
-		if("SSxenoarch")
-			return global.SSxenoarch;
 		if("SSzcopy")
 			return global.SSzcopy;
 		if("Tier1Runes")
@@ -1045,7 +1035,7 @@
 			return global.z_levels;
 		if("zone_blocked")
 			return global.zone_blocked;
-		
+
 /proc/writeglobal(which, newval)
 	switch(which)
 		if("ALL_ANTIGENS")
@@ -1104,10 +1094,6 @@
 			global.SSobj=newval;
 		if("SSopen_space")
 			global.SSopen_space=newval;
-		if("SSpersistence")
-			global.SSpersistence=newval;
-		if("SSplants")
-			global.SSplants=newval;
 		if("SSprocessing")
 			global.SSprocessing=newval;
 		if("SSskybox")
@@ -1118,12 +1104,6 @@
 			global.SSvines=newval;
 		if("SSwireless")
 			global.SSwireless=newval;
-		if("SSvote")
-			global.SSvote=newval;
-		if("SSwebhooks")
-			global.SSwebhooks=newval;
-		if("SSxenoarch")
-			global.SSxenoarch=newval;
 		if("SSzcopy")
 			global.SSzcopy=newval;
 		if("Tier1Runes")
@@ -2092,7 +2072,7 @@
 			global.z_levels=newval;
 		if("zone_blocked")
 			global.zone_blocked=newval;
-		
+
 /var/list/_all_globals=list(
 	"ALL_ANTIGENS",
 	"ANTAG_FREQS",
