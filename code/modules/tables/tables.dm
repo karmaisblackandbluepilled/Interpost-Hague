@@ -386,6 +386,7 @@
 		if(carpeted)
 			overlays += "carpet_flip[type]"
 
+/*
 /obj/structure/table/proc/can_connect()
 	return TRUE
 
@@ -444,6 +445,7 @@
 				T.update_icon()
 
 	connections = dirs_to_corner_states(connection_dirs)
+*/
 
 #define CORNER_NONE 0
 #define CORNER_COUNTERCLOCKWISE 1

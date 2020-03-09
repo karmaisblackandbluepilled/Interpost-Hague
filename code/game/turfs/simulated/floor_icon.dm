@@ -137,8 +137,8 @@ var/list/flooring_cache = list()
 
 		//Check for window frames.
 		if(wall_smooth == SMOOTH_ALL)
-			for(var/obj/structure/wall_frame/WF in T.contents)
-				is_linked = TRUE
+			//for(var/obj/structure/wall_frame/WF in T.contents)
+			is_linked = TRUE
 
 		//If the floor is the same as us,then we're linked,
 		if (istype(src, t.flooring))

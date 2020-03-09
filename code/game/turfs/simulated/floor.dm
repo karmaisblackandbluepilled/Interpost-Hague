@@ -81,8 +81,10 @@
 	else
 		plane = PLATING_PLANE
 
+/*
 /turf/simulated/floor/can_engrave()
 	return (!flooring || flooring.can_engrave)
+*/
 
 /turf/simulated/floor/shuttle_ceiling
 	name = "hull plating"

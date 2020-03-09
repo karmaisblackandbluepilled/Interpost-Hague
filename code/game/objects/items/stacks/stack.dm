@@ -116,7 +116,7 @@
 		to_chat(user, "<span class='warning'>There is another [recipe.title] here!</span>")
 		return
 
-	if (recipe.on_floor && !isfloor(user.loc))
+	if (recipe.on_floor && !is_floor(user.loc))
 		to_chat(user, "<span class='warning'>\The [recipe.title] must be constructed on the floor!</span>")
 		return
 
@@ -371,7 +371,7 @@
 /datum/stack_recipe/New(material/material, var/reinforce_material)
 	if(material)
 		use_material = material.name
-		difficulty += material.construction_difficulty
+		//difficulty += material.construction_difficulty
 	if(reinforce_material)
 		use_reinf_material = reinforce_material
 

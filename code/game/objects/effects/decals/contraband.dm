@@ -62,19 +62,13 @@
 
 	flick("poster_being_set", P)
 	playsound(W, 'sound/items/poster_being_created.ogg', 100, 1) //why the hell does placing a poster make printer sounds?
-	// Time to place is equal to the time needed to play the flick animation
-	if(do_after(user, 28, W) && W.is_wall() && !ArePostersOnWall(W, P))
-		user.visible_message("<span class='notice'>\The [user] has placed a poster on \the [W].</span>","<span class='notice'>You have placed the poster on \the [W].</span>")
-	else
-		// We cannot rely on user being on the appropriate turf when placement fails
-		P.roll_and_drop(get_step(W, turn(placement_dir, 180)))
 
 	var/oldsrc = src //get a reference to src so we can delete it after detaching ourselves
 	src = null
 	spawn(17)
 		if(!P) return
 
-		if(iswall(W) && user && P.loc == user.loc) //Let's check if everything is still there
+		if(is_wall(W) && user && P.loc == user.loc) //Let's check if everything is still there
 			to_chat(user, "<span class='notice'>You place the poster!</span>")
 		else
 			P.roll_and_drop(P.loc)

@@ -306,6 +306,7 @@ var/const/enterloopsanity = 100
 			var/mob/living/M = AM
 			M.turf_collision(src, speed)
 
+/*
 /turf/proc/can_engrave()
 	return FALSE
 
@@ -342,9 +343,10 @@ var/const/enterloopsanity = 100
 	graffiti.message = message
 	graffiti.author = vandal.ckey
 	vandal.update_personal_goal(/datum/goal/achievement/graffiti, TRUE)
+*/
 
-	if(lowertext(message) == "elbereth")
-		to_chat(vandal, "<span class='notice'>You feel much safer.</span>")
+	//if(lowertext(message) == "elbereth")
+		//to_chat(vandal, "<span class='notice'>You feel much safer.</span>")
 
 	return TRUE
 

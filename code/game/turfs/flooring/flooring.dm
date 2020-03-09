@@ -65,7 +65,7 @@ var/list/flooring_types
 	damage_temperature = T0C+80
 	flags = TURF_HAS_EDGES | TURF_HAS_CORNERS | TURF_REMOVE_SHOVEL
 	build_type = /obj/item/stack/tile/grass
-	can_engrave = FALSE
+	//can_engrave = FALSE
 	floor_smooth = SMOOTH_NONE
 	wall_smooth = SMOOTH_ALL
 	space_smooth = SMOOTH_NONE
@@ -78,7 +78,7 @@ var/list/flooring_types
 	icon_base = "dirt"
 	has_base_range = 3
 	damage_temperature = T0C+80
-	can_engrave = FALSE
+	//can_engrave = FALSE
 
 /decl/flooring/asteroid
 	name = "coarse sand"
@@ -97,7 +97,7 @@ var/list/flooring_types
 	damage_temperature = T0C+200
 	flags = TURF_HAS_CORNERS | TURF_HAS_INNER_CORNERS | TURF_REMOVE_CROWBAR | TURF_CAN_BURN
 	can_engrave = FALSE
-	footstep_type = FOOTSTEP_CARPET
+	//footstep_type = FOOTSTEP_CARPET
 	floor_smooth = SMOOTH_NONE
 	wall_smooth = SMOOTH_NONE
 	space_smooth = SMOOTH_NONE
@@ -231,9 +231,11 @@ var/list/flooring_types
 	icon_base = "kafel_full"
 	build_type = null
 
+/*
 /decl/flooring/tiling/stone
 	icon_base = "stone"
 	build_type = /obj/item/stack/tile/stone
+*/
 
 /decl/flooring/tiling/bunker/cafe
 	name = "floor"
@@ -557,6 +559,7 @@ var/list/flooring_types
 /decl/flooring/reinforced/shuttle/black
 	icon_base = "floor7"
 
+/*
 /decl/flooring/reinforced/shuttle/skrell
 	icon = 'icons/turf/skrellturf.dmi'
 	icon_base = "skrellblack"
@@ -566,6 +569,7 @@ var/list/flooring_types
 
 /decl/flooring/reinforced/shuttle/skrell/red
 	icon_base = "skrellred"
+*/
 
 /decl/flooring/diona
 	name = "biomass"
@@ -592,10 +596,11 @@ var/list/flooring_types
 	icon = 'icons/turf/floors.dmi'
 	icon_base = "diona"
 	flags = TURF_ACID_IMMUNE | TURF_REMOVE_SHOVEL
-
+/*
 /decl/flooring/crystal
 	name = "crystal floor"
 	icon = 'icons/turf/flooring/crystal.dmi'
 	build_type = null
 	flags = TURF_ACID_IMMUNE | TURF_CAN_BREAK | TURF_REMOVE_CROWBAR
 	color = "#00ffe1"
+*/

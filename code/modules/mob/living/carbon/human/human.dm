@@ -1815,7 +1815,7 @@
 			to_chat(src, "<b>[capitalize(org.name)]:</b> <span class='notice'>OK</span>")
 
 /mob/living/carbon/human/throw_impact(atom/hit_atom)
-	if(iswall(hit_atom))
+	if(is_wall(hit_atom))
 		var/damage = rand(0, 10)
 		var/smashsound = pick("sound/effects/gore/smash[rand(1,3)].ogg", "sound/effects/gore/trauma1.ogg")
 		playsound(loc, smashsound, 50, 1, -1)

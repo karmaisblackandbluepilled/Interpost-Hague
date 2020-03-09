@@ -63,6 +63,9 @@
 					S.update_icon()
 				dirs += get_dir(src, S)
 
+	connections = dirs_to_corner_states(dirs)
+	other_connections = dirs_to_corner_states(other_dirs)
+
 	if(!can_visually_connect())
 		connections = list("0", "0", "0", "0")
 		other_connections = list("0", "0", "0", "0")
@@ -106,6 +109,3 @@
 	for(var/thing in RANGE_TURFS(src, 1))
 		var/turf/T = thing
 		T.update_icon()
-
-	connections = dirs_to_corner_states(dirs)
-	other_connections = dirs_to_corner_states(other_dirs)
