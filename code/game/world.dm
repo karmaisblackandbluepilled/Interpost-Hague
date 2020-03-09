@@ -1,4 +1,4 @@
-/var/server_name = "InterHippie"
+/var/server_name = "InterHippie Hague - COVID-20 Alert"
 
 /var/game_id = null
 /hook/global_init/proc/generate_gameid()
@@ -117,7 +117,7 @@
 	processScheduler = new
 	master_controller = new /datum/controller/game_controller()
 
-	processScheduler.deferSetupFor(/datum/controller/process/ticker)
+	//processScheduler.deferSetupFor(/datum/controller/process/ticker)
 	processScheduler.setup()
 	Master.Initialize(10, FALSE)
 
@@ -476,10 +476,15 @@ var/world_topic_spam_protect_time = world.timeofday
 
 	processScheduler.stop()
 
-	if(config.server)	//if you set a server location in config.txt, it sends you there instead of trying to reconnect to the same world address. -- NeoFite
-		for(var/client/C in GLOB.clients)
-			to_chat(C, link("byond://[config.server]"))
+	var/datum/chatOutput/co
+	for(var/client/C in GLOB.clients)
+		co = C.chatOutput
+		if(co)
+			co.ehjax_send(data = "roundrestart")
 
+		if(config.server) //if you set a server location in config.txt, it sends you there instead of trying to reconnect to the same world address. -- NeoFite
+			open_link(C, "byond://[config.server]")
+	
 	if(config.wait_for_sigusr1_reboot && reason != 3)
 		text2file("foo", "reboot_called")
 		to_world("<span class=danger>World reboot waiting for external scripts. Please be patient.</span>")
@@ -580,8 +585,8 @@ var/world_topic_spam_protect_time = world.timeofday
 	s += "<b>[station_name()]</b>";
 	s += " ("
 	s += "<a href=\"http://\">" //Change this to wherever you want the hub to link to.
-//	s += "[game_version]"
-	s += "Default"  //Replace this with something else. Or ever better, delete it and uncomment the game version.
+	s += "[game_version]"
+//	s += "Default"  //Replace this with something else. Or ever better, delete it and uncomment the game version.
 	s += "</a>"
 	s += ")"
 

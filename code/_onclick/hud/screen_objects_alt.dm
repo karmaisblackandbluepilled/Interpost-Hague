@@ -321,6 +321,49 @@
 /obj/screen/intent/update_icon()
 	icon_state = "intent_[intent]"
 
+/obj/screen/combat
+	name = "Combat Intent"
+	icon = 'icons/mob/screen/dark.dmi'
+	icon_state = "atk_all"
+	screen_loc = ui_atk_intents
+	var/intent = I_STRONG
+
+/obj/screen/combat/Click(var/location, var/control, var/params)
+	var/list/P = params2list(params)
+	var/icon_x = text2num(P["icon-x"])
+	var/icon_y = text2num(P["icon-y"])
+	intent = I_STRONG
+	if(icon_x <= world.icon_size/2)
+		if(icon_y <= world.icon_size/2)
+			intent = I_DEFEND
+		else
+			intent = I_AIM
+	else if(icon_y <= world.icon_size/2)
+		intent = I_QUICK
+	update_icon()
+	usr.c_intent = intent
+
+/obj/screen/combat/update_icon()
+	icon_state = "[intent]"
+
+/obj/screen/skills_family
+	name = "skills_family"
+	icon = 'icons/mob/screen/dark.dmi'
+	icon_state = "skills_family"
+	screen_loc = ui_skills_family//ui_acti
+
+/obj/screen/skills_family/Click(var/location, var/control, var/params)
+	var/list/P = params2list(params)
+	var/icon_y = text2num(P["icon-y"])
+	if(icon_y <= world.icon_size/2)
+		if(ishuman(usr))
+			var/mob/living/carbon/human/H = usr
+			H.check_skills()
+	else
+		if(ishuman(usr))
+			var/mob/living/carbon/human/H = usr
+			H.check_family()
+
 /obj/screen/Click(location, control, params)
 	if(!usr)	return 1
 	switch(name)
@@ -502,25 +545,28 @@
 				usr.kick_icon.icon_state = "kick"
 		if("combat mode")
 			if(!ishuman(usr))	return
+			var/song = 'sound/music/combat_music.ogg'
 			usr << 'sound/effects/ui_toggle.ogg'
 			var/mob/living/carbon/human/C = usr
 			if(C.combat_mode)
 				C.combat_mode = 0
 				C.combat_icon.icon_state = "combat0"
+
+				sound_to(C, sound(null, repeat = 0, wait = 0, volume = 85, channel = 1))
 			else
 				C.combat_mode = 1
 				C.combat_icon.icon_state = "combat1"
+				sound_to(C, sound(song, repeat = 1, wait = 0, volume = 50, channel = 1))		
 
-		if("combat intent")
+		if("dodge intent")
 			if(ishuman(usr))
 				var/mob/living/carbon/human/E = usr
 				if(E.defense_intent == I_PARRY)
 					E.defense_intent = I_DODGE
-					E.combat_intent_icon.icon_state = "dodge"
+					E.dodge_intent_icon.icon_state = "dodge"
 				else
 					E.defense_intent = I_PARRY
-					E.combat_intent_icon.icon_state = "parry"
-
+					E.dodge_intent_icon.icon_state = "parry"
 		if("fixeye")
 			usr.face_direction()
 			if(usr.facing_dir)
@@ -598,10 +644,18 @@
 			if(iscarbon(usr))
 				var/mob/living/carbon/C = usr
 				C.activate_hand("r")
+				if(C.hand)
+					C.activate_hand("r")
+				else
+					C.attack_empty_hand(BP_R_HAND)
 		if("l_hand")
 			if(iscarbon(usr))
 				var/mob/living/carbon/C = usr
 				C.activate_hand("l")
+				if(!C.hand)
+					C.activate_hand("l")
+				else
+					C.attack_empty_hand(BP_L_HAND)
 		if("swap")
 			usr:swap_hand()
 		if("hand")

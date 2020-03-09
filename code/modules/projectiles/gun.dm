@@ -354,7 +354,7 @@
 		//Kinda balanced by fact you need like 2 seconds to aim
 		//As opposed to no-delay pew pew
 		P.accuracy += 2
-	if(!user.skillcheck(user.skills["ranged"], 55, "How the heck do you aim this thing?!") || !user.combat_mode)//Being unskilled at guns decreased accuracy.
+	if(!user.skillcheck(user.skills["ranged"], 55, "How the heck do you aim this thing?!", "ranged") || !user.combat_mode)//Being unskilled at guns decreased accuracy.
 		P.accuracy -= 2
 
 //does the actual launching of the projectile
@@ -503,3 +503,25 @@
 		safety = !safety
 		playsound(user, 'sound/weapons/guns/interact/selector.ogg', 50, 1)
 		to_chat(user, "<span class='notice'>You toggle the safety [safety ? "on":"off"].</span>")
+		if(!safety)
+			user.client.mouse_pointer_icon = file("icons/misc/pointer.dmi")
+		else
+			user.client.mouse_pointer_icon = initial(user.client.mouse_pointer_icon)
+
+//Gun pointer
+/obj/item/weapon/gun/pickup(mob/user)
+	..()
+	if(!safety)
+		user.client.mouse_pointer_icon = file("icons/misc/pointer.dmi")
+
+/obj/item/weapon/gun/equipped(mob/user, var/slot)
+	..()
+	if(!safety && (slot == slot_l_hand || slot == slot_r_hand))
+		user.client.mouse_pointer_icon = file("icons/misc/pointer.dmi")
+	else
+		user.client.mouse_pointer_icon = null
+
+/obj/item/weapon/gun/dropped(mob/user)
+	..()
+	if(user.get_active_hand() != src)
+		user.client.mouse_pointer_icon = initial(user.client.mouse_pointer_icon)

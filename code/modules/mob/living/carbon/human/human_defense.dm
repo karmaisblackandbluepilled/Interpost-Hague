@@ -78,6 +78,7 @@ meteor_act
 	..(stun_amount, agony_amount, def_zone)
 
 /mob/living/carbon/human/getarmor(var/def_zone, var/type)
+	var/psi_mod = psi ? psi.get_armour(type) : 0
 	var/armorval = 0
 	var/total = 0
 
@@ -86,7 +87,7 @@ meteor_act
 			return getarmor_organ(def_zone, type)
 		var/obj/item/organ/external/affecting = get_organ(def_zone)
 		if(affecting)
-			return getarmor_organ(affecting, type)
+			return Clamp(psi_mod + getarmor_organ(isorgan(def_zone) ? def_zone : get_organ(def_zone), type),0,100)
 		//If a specific bodypart is targetted, check how that bodypart is protected and return the value.
 
 	//If you don't specify a bodypart, it checks ALL your bodyparts for protection, and averages out the values
@@ -97,7 +98,7 @@ meteor_act
 				var/weight = organ_rel_size[organ_name]
 				armorval += (getarmor_organ(organ, type) * weight) //use plain addition here because we are calculating an average
 				total += weight
-	return (armorval/max(total, 1))
+	return Clamp(psi_mod + (armorval/max(total, 1)),0,100)
 
 //this proc returns the Siemens coefficient of electrical resistivity for a particular external organ.
 /mob/living/carbon/human/proc/get_siemens_coefficient_organ(var/obj/item/organ/external/def_zone)
@@ -151,6 +152,12 @@ meteor_act
 	return null
 
 /mob/living/carbon/human/proc/check_shields(var/damage = 0, var/atom/damage_source = null, var/mob/attacker = null, var/def_zone = null, var/attack_text = "the attack")
+	var/obj/item/projectile/P = damage_source
+	if(istype(P) && !P.disrupts_psionics() && psi && P.starting && prob(psi.get_armour(P.check_armour) * 0.5) && psi.spend_power(round(damage/10)))
+		visible_message("<span class='danger'>\The [src] deflects [attack_text]!</span>")
+		P.redirect(P.starting.x + rand(-2,2), P.starting.y + rand(-2,2), get_turf(src), src)
+		return PROJECTILE_FORCE_MISS
+
 	for(var/obj/item/shield in list(l_hand, r_hand, wear_suit))
 		if(!shield) continue
 		. = shield.handle_shield(src, damage, damage_source, attacker, def_zone, attack_text)
@@ -166,13 +173,14 @@ meteor_act
 	if(user == src) // Attacking yourself can't miss
 		return target_zone
 
-	var/hit_zone = get_zone_with_miss_chance(target_zone, src)
+	var/hit_modifier = user.c_intent == I_AIM ? -40 : 0 //If they are in aim mode, miss less
+	var/hit_zone = get_zone_with_miss_chance(target_zone, src, hit_modifier)
 
 	if(!hit_zone)
 		visible_message("<span class='danger'>\The [user] misses [src] with \the [I]!</span>")
 		return null
 
-	if(user.skillcheck(user.skills["melee"], 60, 0, "Crit check") == CRIT_FAILURE)
+	if(user.skillcheck(user.skills["melee"], 60, "melee") == CRIT_FAILURE)
 		user.resolve_critical_miss(I)
 		return null
 
@@ -180,7 +188,7 @@ meteor_act
 	//	visible_message("<span class='danger'>[user] botches the attack on [src]!</span>")
 	//	return null
 
-
+	//PARRYING HAPPENS HERE
 	if(check_shields(I.force, I, user, target_zone, "the [I.name]"))
 		return null
 
@@ -189,8 +197,8 @@ meteor_act
 		to_chat(user, "<span class='danger'>They are missing that limb!</span>")
 		return null
 
-	
-	if(user.skillcheck(user.skills["melee"], 60, 0) == CRIT_FAILURE)
+
+	if(user.skillcheck(user.skills["melee"], 60, "melee") == CRIT_FAILURE)
 		user.resolve_critical_miss(I)
 		return null
 
@@ -249,7 +257,7 @@ meteor_act
 		return 0
 
 	if(user.stats["str"])//If they have strength then add it.
-		effective_force *= strToDamageModifier(user.stats["str"])
+		effective_force += strToDamageModifier(user.stats["str"])
 
 	// Handle striking to cripple.
 	if(user.a_intent == I_DISARM)
@@ -260,6 +268,7 @@ meteor_act
 		//set the dislocate mult less than the effective force mult so that
 		//dislocating limbs on disarm is a bit easier than breaking limbs on harm
 		attack_joint(affecting, I, effective_force, 0.5, blocked) //...but can dislocate joints
+
 	else if(!..())
 		return 0
 
@@ -307,7 +316,7 @@ meteor_act
 					apply_effect(6, WEAKEN, blocked)
 		//Apply blood
 		attack_bloody(I, user, effective_force, hit_zone)
-	if(user.skillcheck(user.skills["melee"],0,0, "Crit check") == CRIT_SUCCESS)
+	if(user.skillcheck(user.skills["melee"], 0, "melee") == CRIT_SUCCESS)
 		resolve_critical_hit()
 
 	//Blood to gold
@@ -624,7 +633,7 @@ meteor_act
 				src.throw_at(target, rand(1,3), src.throw_speed)
 			if(user.lying)
 				to_chat(user, too_high_message)
-					return
+				return
 
 		if(BP_MOUTH)//If we aim for the mouth then we kick their teeth out.
 			if(lying)

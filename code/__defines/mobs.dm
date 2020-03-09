@@ -62,6 +62,14 @@
 #define I_DISARM	"disarm"
 #define I_GRAB		"grab"
 #define I_HURT		"harm"
+#define I_SKILLS	"skills"
+#define I_FAMILY	"family"
+
+//combat flags, this is getting done the first time
+#define I_AIM 		"aim"
+#define I_STRONG	"strong"
+#define I_QUICK	    "quick"
+#define I_DEFEND	"defense"
 #define I_DODGE		"dodge"
 #define I_PARRY		"parry"
 
@@ -355,3 +363,8 @@
 #define SOCIAL_CLASS_MED 2
 #define SOCIAL_CLASS_HIGH 3
 #define SOCIAL_CLASS_MAX 4
+
+//Crit defines
+#define HEALTH_THRESHOLD_CRIT 0
+#define HEALTH_THRESHOLD_FULLCRIT -30
+#define HEALTH_THRESHOLD_DEAD -100

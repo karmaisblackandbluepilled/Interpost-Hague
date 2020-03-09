@@ -117,6 +117,9 @@ default behaviour is:
 			if(!(tmob.status_flags & CANPUSH))
 				now_pushing = 0
 				return
+			if(!src.statcheck(src.stats["str"], tmob.stats["str"], "I can't push past [tmob], he's too brawny!", "str"))
+				now_pushing = 0
+				return
 			tmob.LAssailant = src
 		if(isobj(AM) && !AM.anchored)
 			var/obj/I = AM
@@ -187,7 +190,7 @@ default behaviour is:
 /mob/living/verb/succumb()
 	set name = "Succumb"
 	set category = "IC"
-	if ((src.health < src.maxHealth/2) || is_asystole()) // Health below half of maxhealth, or asystole.
+	if ((src.health < src.maxHealth * 0.3) || is_asystole()) // Health below half of maxhealth, or asystole.
 		src.adjustBrainLoss(src.health + src.maxHealth * 2) // Deal 2x health in BrainLoss damage, as before but variable.
 		updatehealth()
 		to_chat(src, "<span class='notice'>You have given up life and succumbed to death.</span>")
@@ -582,7 +585,6 @@ default behaviour is:
 														X.existing_dirs += newdir
 														X.overlays.Add(image('icons/effects/blood.dmi',trail_type,dir = newdir))
 
-								/*
 								//pull damage with injured people
 									if(prob(25))
 										M.adjustBruteLoss(1)
@@ -599,8 +601,6 @@ default behaviour is:
 												var/blood_volume = round(H.vessel.get_reagent_amount(/datum/reagent/blood))
 												if(blood_volume > 0)
 													H.vessel.remove_reagent(/datum/reagent/blood, 1)
-
-								*/
 
 						step(pulling, get_dir(pulling.loc, T))
 						if(t)
@@ -738,7 +738,7 @@ default behaviour is:
 		resisting++
 		G.handle_resist()
 	if(resisting)
-		visible_message("<span class='danger'>[src] resists!</span>")
+		visible_message("<span class='danger'>[src] tries to resist!</span>")
 
 /mob/living/verb/lay_down()
 	set name = "Rest"

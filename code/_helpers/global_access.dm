@@ -955,8 +955,6 @@
 			return global.tgui_process;
 		if("ticker")
 			return global.ticker;
-		if("tickerProcess")
-			return global.tickerProcess;
 		if("ticket_panels")
 			return global.ticket_panels;
 		if("tickets")
@@ -1994,8 +1992,6 @@
 			global.tgui_process=newval;
 		if("ticker")
 			global.ticker=newval;
-		if("tickerProcess")
-			global.tickerProcess=newval;
 		if("ticket_panels")
 			global.ticket_panels=newval;
 		if("tickets")

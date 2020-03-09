@@ -108,6 +108,7 @@
 			ready = 0
 
 	if(href_list["refresh"])
+		src << browse(null, "window=Character Latejoin") //closes late choices window
 		panel.close()
 		new_player_panel_proc()
 
@@ -397,10 +398,13 @@
 
 /mob/new_player/proc/LateChoices()
 	var/name = client.prefs.be_random_name ? "friend" : client.prefs.real_name
-
-	var/list/dat = list("<html><body><center>")
+	var/department = null
+	var/dat = "<html><body><center>"
 	dat += "<b>Welcome, [name].<br></b>"
 	dat += "Round Duration: [roundduration2text()]<br>"
+
+	if(client.prefs.gender != MALE)
+		dat += "<font color='red'><b>Some of the roles are missing due to a gender lock.</b></font><br>"
 
 	if(evacuation_controller.has_evacuated())
 		dat += "<font color='red'><b>The [station_name()] has been evacuated.</b></font><br>"
@@ -413,7 +417,12 @@
 	dat += "Choose from the following open/valid positions:<br>"
 	dat += "<a href='byond://?src=\ref[src];invalid_jobs=1'>[show_invalid_jobs ? "Hide":"Show"] unavailable jobs.</a><br>"
 	dat += "<table>"
+	
 	for(var/datum/job/job in job_master.occupations)
+		//Suprisingly, get_announcement_frequency is perfect for getting the name from the depratment_flag var
+		if(department != get_announcement_frequency(job))
+			department = get_announcement_frequency(job)
+			dat += "<tr><td>[department]</td></tr>"
 		if(job && IsJobAvailable(job))
 			if(job.minimum_character_age && (client.prefs.age < job.minimum_character_age))
 				continue
@@ -428,12 +437,15 @@
 
 			if(job.is_restricted(client.prefs))
 				if(show_invalid_jobs)
-					dat += "<tr><td><a style='text-decoration: line-through' href='byond://?src=\ref[src];SelectedJob=[job.title]'>[job.title]</a></td><td>[job.current_positions]</td><td>(Active: [active])</td></tr>"
+					dat += "<tr bgcolor='[job.selection_color]'><td><a style='text-decoration: line-through' href='byond://?src=\ref[src];SelectedJob=[job.title]'>[job.title]</a></td><td>[job.current_positions]</td><td>(Active: [active])</td></tr>"
 			else
-				dat += "<tr><td><a href='byond://?src=\ref[src];SelectedJob=[job.title]'>[job.title]</a></td><td>[job.current_positions]</td><td>(Active: [active])</td></tr>"
+				dat += "<tr bgcolor='[job.selection_color]'><td><a href='byond://?src=\ref[src];SelectedJob=[job.title]'>[job.title]</a></td><td>[job.current_positions]</td><td>(Active: [active])</td></tr>"
 
 	dat += "</table></center>"
-	src << browse(jointext(dat, null), "window=latechoices;size=450x640;can_close=1")
+	//src << browse(jointext(dat, null), "window=latechoices;size=450x640;can_close=1")
+	var/datum/browser/popup = new(src, "Character Latejoin","Character Latejoin", 450, 640, src)
+	popup.set_content(dat)
+	popup.open()
 
 /mob/new_player/proc/create_character(var/turf/spawn_turf)
 	spawning = 1
@@ -485,13 +497,6 @@
 		mind.original = new_character
 		if(client.prefs.memory)
 			mind.store_memory(client.prefs.memory)
-		if(client.prefs.relations.len)
-			for(var/T in client.prefs.relations)
-				var/TT = matchmaker.relation_types[T]
-				var/datum/relation/R = new TT
-				R.holder = mind
-				R.info = client.prefs.relations_info[T]
-			mind.gen_relations_info = client.prefs.relations_info["general"]
 		mind.transfer_to(new_character)					//won't transfer key since the mind is not active
 	new_character.SetName(real_name)
 	new_character.dna.ready_dna(new_character)
@@ -526,7 +531,7 @@
 	return 0
 
 /mob/new_player/proc/close_spawn_windows()
-	src << browse(null, "window=latechoices") //closes late choices window
+	src << browse(null, "window=Character Latejoin") //closes late choices window
 	panel.close()
 
 /mob/new_player/proc/has_admin_rights()

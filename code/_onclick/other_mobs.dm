@@ -25,6 +25,9 @@
 /atom/proc/attack_hand(mob/user as mob)
 	return
 
+/mob/proc/attack_empty_hand(var/bp_hand)
+	return
+
 /mob/living/carbon/human/RestrainedClickOn(var/atom/A)
 	return
 
@@ -50,14 +53,10 @@
 				shadow.visible_message("<span class='warning'>[shadow] gives up on trying to climb onto \the [A]!</span>")
 			return
 
-	if(!gloves && !mutations.len) return
-	var/obj/item/clothing/gloves/G = gloves
-	if((LASER in mutations) && a_intent == I_HURT)
-		LaserEyes(A) // moved into a proc below
-
-	else if(istype(G) && G.Touch(A,0)) // for magic gloves
-		return
-
+	if(gloves)
+		var/obj/item/clothing/gloves/G = gloves
+		if(istype(G) && G.Touch(A,0)) // for magic gloves
+			return
 	else if(TK in mutations)
 		A.attack_tk(src)
 	if((istype(A, /turf/simulated/floor) || istype(A, /turf/unsimulated/floor) || istype(A, /obj/structure/lattice) || istype(A, /obj/structure/catwalk)) && isturf(loc) && bound_overlay && !is_physically_disabled()) //Climbing through openspace
@@ -71,6 +70,7 @@
 
 	. = ..()
 */
+	. = ..()
 
 /mob/living/RestrainedClickOn(var/atom/A)
 	return

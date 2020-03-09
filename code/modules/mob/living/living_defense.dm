@@ -23,12 +23,14 @@
 	var/fullblock = (effective_armor*effective_armor) * ARMOR_BLOCK_CHANCE_MULT
 
 	if(fullblock >= 1 || prob(fullblock*100))
-		if(absorb_text)
-			show_message("<span class='warning'>[absorb_text]</span>")
+		if(psi && psi.use_psi_armour && psi.last_armor_check == world.time)
+			show_message(SPAN_WARNING("You block the blow with your mind!"))
+			psi.spend_power(10)
+		else if(absorb_text)
+			show_message(SPAN_WARNING("[absorb_text]"))
 		else
-			show_message("<span class='warning'>Your armor absorbs the blow!</span>")
+			show_message(SPAN_WARNING("Your armor absorbs the blow!"))
 		return 100
-
 	//this makes it so that X armour blocks X% damage, when including the chance of hard block.
 	//I double checked and this formula will also ensure that a higher effective_armor
 	//will always result in higher (non-fullblock) damage absorption too, which is also a nice property
@@ -37,11 +39,14 @@
 	var/blocked = (effective_armor - fullblock)/(1 - fullblock)*100
 
 	if(blocked > 20)
-		//Should we show this every single time?
-		if(soften_text)
-			show_message("<span class='warning'>[soften_text]</span>")
+		if(psi && psi.use_psi_armour && psi.last_armor_check == world.time)
+			show_message(SPAN_WARNING("You soften the blow with your mind!"))
+		else if(soften_text)
+			show_message(SPAN_WARNING("[soften_text]"))
 		else
 			show_message("<span class='warning'>Your armor softens the blow!</span>")
+	if(psi && psi.use_psi_armour && psi.last_armor_check == world.time)
+		psi.spend_power(round(blocked/10))
 
 	return round(blocked, 1)
 
@@ -57,7 +62,7 @@
 
 //if null is passed for def_zone, then this should return something appropriate for all zones (e.g. area effect damage)
 /mob/living/proc/getarmor(var/def_zone, var/type)
-	return 0
+	return (psi ? psi.get_armour(type) : 0)
 
 
 /mob/living/bullet_act(var/obj/item/projectile/P, var/def_zone)
@@ -174,8 +179,9 @@
 		damage_flags &= ~(DAM_SHARP|DAM_EDGE)
 
 	if(user.stats["str"])//If they have strength then add it.
-		effective_force *= strToDamageModifier(user.stats["str"])
-	//to_world("Effective Force: [effective_force].  StrMod: [strToDamageModifier(user.stats["str"])])") //Debugging
+		effective_force += strToDamageModifier(user.stats["str"])
+
+	//to_world("Effective Force: [effective_force].  StrMod: [strToDamageModifier(user.stats["str"])]) damage_modifier:[damage_modifier]") //Debugging
 
 	apply_damage(effective_force, I.damtype, hit_zone, blocked, damage_flags, used_weapon=I)
 
@@ -251,7 +257,7 @@
 /mob/living/proc/turf_collision(var/turf/T, var/speed)
 	visible_message("<span class='danger'>[src] slams into \the [T]!</span>")
 	playsound(loc, 'sound/effects/bangtaper.ogg', 50, 1, -1)
-	src.take_organ_damage(speed*3)
+	src.take_organ_damage(3)
 
 /mob/living/proc/near_wall(var/direction,var/distance=1)
 	var/turf/T = get_step(get_turf(src),direction)

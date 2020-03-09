@@ -71,6 +71,16 @@
 
 		hud_elements |= using
 
+	// Draw the combat intent dialogue.
+	if(hud_data.has_a_intent)
+
+		using = new /obj/screen/combat()
+		src.adding += using
+		action_intent = using
+
+		hud_elements |= using
+	
+
 	if(hud_data.has_m_intent)
 		using = new /obj/screen()
 		using.SetName("mov_intent")
@@ -280,7 +290,7 @@
 	mymob.film_grain.icon = 'icons/effects/static.dmi'
 	mymob.film_grain.icon_state = "9 medium"
 	mymob.film_grain.screen_loc = ui_entire_screen
-	mymob.film_grain.alpha = 118
+	mymob.film_grain.alpha = 150
 	mymob.film_grain.layer = FULLSCREEN_LAYER
 	mymob.film_grain.mouse_opacity = 0
 	hud_elements |= mymob.film_grain

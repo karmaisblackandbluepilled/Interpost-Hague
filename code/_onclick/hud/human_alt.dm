@@ -101,6 +101,22 @@
 
 		hud_elements |= using
 
+	// Draw the combat intent dialogue.
+	if(hud_data.has_c_intent)
+
+		using = new /obj/screen/combat()
+		src.adding += using
+
+		hud_elements |= using
+
+	// Draw the skill/family dialogue.
+	if(hud_data.has_skills_family)
+
+		using = new /obj/screen/skills_family()
+		src.adding += using
+
+		hud_elements |= using
+
 	if(hud_data.has_m_intent)
 		using = new /obj/screen()
 		using.name = "mov_intent"
@@ -328,15 +344,6 @@
 	mymob.jump_icon.screen_loc = ui_atk
 	hud_elements |= mymob.jump_icon
 
-/*
-	mymob.skills_family = new /obj/screen()
-	mymob.skills_family = ui_style
-	mymob.skills_family.icon_state = "family_skills"
-	mymob.skills_family.name = "skills_family"
-	mymob.fixeye.screen_loc = ui_skills_family
-	hud_elements |= mymob.skills_family
-*/
-
 	mymob.fixeye = new /obj/screen()
 	mymob.fixeye.icon = ui_style
 	mymob.fixeye.icon_state = "fixeye"
@@ -368,12 +375,12 @@
 	mymob.combat_icon.screen_loc = ui_combat
 	hud_elements |= mymob.combat_icon
 
-	mymob.combat_intent_icon = new /obj/screen()//combat mode
-	mymob.combat_intent_icon.name = "combat intent"
-	mymob.combat_intent_icon.icon = ui_style//'icons/mob/screen/dark.dmi'
-	mymob.combat_intent_icon.icon_state = "dodge"
-	mymob.combat_intent_icon.screen_loc = ui_combat_intent
-	hud_elements |= mymob.combat_intent_icon
+	mymob.dodge_intent_icon = new /obj/screen()//dodge or parry
+	mymob.dodge_intent_icon.name = "dodge intent"
+	mymob.dodge_intent_icon.icon = ui_style//'icons/mob/screen/dark.dmi'
+	mymob.dodge_intent_icon.icon_state = "dodge"
+	mymob.dodge_intent_icon.screen_loc = ui_combat_intent
+	hud_elements |= mymob.dodge_intent_icon
 
 	mymob.surrender = new /obj/screen()
 	mymob.surrender.name = "surrender"

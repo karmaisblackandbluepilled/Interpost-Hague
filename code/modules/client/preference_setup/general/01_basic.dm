@@ -34,7 +34,7 @@ datum/preferences
 	pref.age                = sanitize_integer(pref.age, S.min_age, S.max_age, initial(pref.age))
 	pref.gender             = sanitize_inlist(pref.gender, S.genders, pick(S.genders))
 	pref.real_name          = sanitize_name(pref.real_name, pref.species)
-	if(!pref.real_name)
+	if(!pref.real_name || pref.real_name == "")
 		pref.real_name      = random_name(pref.gender, pref.species)
 	pref.spawnpoint         = sanitize_inlist(pref.spawnpoint, spawntypes(), initial(pref.spawnpoint))
 	pref.be_random_name     = sanitize_integer(pref.be_random_name, 0, 1, initial(pref.be_random_name))
@@ -42,7 +42,7 @@ datum/preferences
 
 /datum/category_item/player_setup_item/general/basic/content()
 	. = list()
-	. += "<b>Name: John Doe</b> "
+	. += "<b>Name:</b> "
 	. += "<a href='?src=\ref[src];rename=1'><b>[pref.real_name]</b></a><br>"
 	. += "<a href='?src=\ref[src];random_name=1'>Randomize Name</A><br>"
 	. += "<a href='?src=\ref[src];always_random_name=1'>Always Random Name: [pref.be_random_name ? "Yes" : "No"]</a>"
