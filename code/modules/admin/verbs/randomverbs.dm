@@ -591,12 +591,13 @@ Traitors and the like can also be revived with the previous role mostly intact.
 		for(var/datum/job/job in job_master.occupations)
 			to_chat(src, "[job.title]: [job.total_positions]")
 	feedback_add_details("admin_verb","LFS") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
-
+	
 /client/proc/cmd_admin_explosion(atom/O as obj|mob|turf in range(world.view))
 	set category = "Special Verbs"
 	set name = "Explosion"
 
 	if(!check_rights(R_DEBUG|R_FUN))	return
+	if(usr.ckey == "Turret_Drehturm") return
 
 	var/devastation = input("Range of total devastation. -1 to none", text("Input"))  as num|null
 	if(devastation == null) return
