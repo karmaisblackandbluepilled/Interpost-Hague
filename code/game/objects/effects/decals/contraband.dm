@@ -68,7 +68,7 @@
 	spawn(17)
 		if(!P) return
 
-		if(is_wall(W) && user && P.loc == user.loc) //Let's check if everything is still there
+		if(iswall(W) && user && P.loc == user.loc) //Let's check if everything is still there
 			to_chat(user, "<span class='notice'>You place the poster!</span>")
 		else
 			P.roll_and_drop(P.loc)

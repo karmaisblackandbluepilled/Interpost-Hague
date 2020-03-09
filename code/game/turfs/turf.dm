@@ -36,14 +36,14 @@
 			src.Entered(AM)
 			return
 
-///turf/Initialize(mapload, ...)
+/turf/Initialize(mapload, ...)
 	//var/fluid_can_pass
 	//var/obj/effect/flood/flood_object
 	//var/fluid_blocked_dirs = 0
 	//var/flooded // Whether or not this turf is absolutely flooded ie. a water source.
-	//var/footstep_type
+	/var/footstep_type
 
-	//var/tmp/changing_turf
+	/var/tmp/changing_turf
 
 /turf/Initialize(mapload)
 	. = ..()
@@ -59,7 +59,7 @@
 
 	if (z_flags & ZM_MIMIC_BELOW)
 		setup_zmimic(mapload)
-
+/*
 /turf/update_icon()
 	//update_flood_overlay()
 	if (mapload && permit_ao)
@@ -68,7 +68,7 @@
 /turf/update_icon()
 	//update_flood_overlay()
 	queue_ao(FALSE)
-
+*/
 /*
 /turf/proc/update_flood_overlay()
 	if(is_flooded(absolute = TRUE))

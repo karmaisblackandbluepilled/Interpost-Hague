@@ -116,7 +116,7 @@
 		to_chat(user, "<span class='warning'>There is another [recipe.title] here!</span>")
 		return
 
-	if (recipe.on_floor && !is_floor(user.loc))
+	if (recipe.on_floor && !isfloor(user.loc))
 		to_chat(user, "<span class='warning'>\The [recipe.title] must be constructed on the floor!</span>")
 		return
 

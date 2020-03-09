@@ -6,6 +6,13 @@
 		mloc = mloc.loc
 	return mloc
 
+
+/proc/iswall(turf/T)
+	return T.is_wall()
+
+/proc/isfloor(turf/T)
+	return T.is_floor()
+
 /proc/turf_clear(turf/T)
 	for(var/atom/A in T)
 		if(A.simulated)
