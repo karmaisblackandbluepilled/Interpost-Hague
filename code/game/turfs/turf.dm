@@ -51,8 +51,8 @@
 	if (z_flags & ZM_MIMIC_BELOW)
 		setup_zmimic(mapload)
 
-/turf/on_update_icon()
-	update_flood_overlay()
+/turf/update_icon()
+	//update_flood_overlay()
 	queue_ao(FALSE)
 
 /*

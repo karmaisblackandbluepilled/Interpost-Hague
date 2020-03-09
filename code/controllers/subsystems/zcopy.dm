@@ -19,7 +19,7 @@ SUBSYSTEM_DEF(zcopy)
 
 // for admin proc-call
 /datum/controller/subsystem/zcopy/proc/update_all()
-	disable()
+	//disable()
 	log_debug("SSzcopy: update_all() invoked.")
 
 	var/turf/T 	// putting the declaration up here totally speeds it up, right?
@@ -46,11 +46,11 @@ SUBSYSTEM_DEF(zcopy)
 
 	log_debug("SSzcopy: [num_upd + num_amupd] turf updates queued ([num_upd] direct, [num_amupd] indirect), [num_del] orphans destroyed.")
 
-	enable()
+	//enable()
 
 // for admin proc-call
 /datum/controller/subsystem/zcopy/proc/hard_reset()
-	disable()
+	//disable()
 	log_debug("SSzcopy: hard_reset() invoked.")
 	var/num_deleted = 0
 	var/num_turfs = 0
@@ -71,7 +71,7 @@ SUBSYSTEM_DEF(zcopy)
 
 	log_debug("SSzcopy: deleted [num_deleted] overlays, and queued [num_turfs] turfs for update.")
 
-	enable()
+	//enable()
 
 /datum/controller/subsystem/zcopy/stat_entry()
 	..("Q:{T:[queued_turfs.len - (qt_idex - 1)]|O:[queued_overlays.len - (qo_idex - 1)]} T:{T:[openspace_turfs]|O:[openspace_overlays]}")

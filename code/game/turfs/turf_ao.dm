@@ -19,8 +19,7 @@
 		regenerate_ao()
 
 /turf/proc/regenerate_ao()
-	for (var/thing in RANGE_TURFS(src, 1))
-		var/turf/T = thing
+	for(var/turf/T in RANGE_TURFS(1, src))
 		if (T.permit_ao)
 			T.queue_ao(TRUE)
 
@@ -31,9 +30,7 @@
 		return
 
 	var/turf/T
-	if (z_flags & ZM_MIMIC_BELOW)
-		CALCULATE_NEIGHBORS(src, ao_neighbors_mimic, T, (T.z_flags & ZM_MIMIC_BELOW))
-	if (AO_SELF_CHECK(src) && !(z_flags & ZM_MIMIC_NO_AO))
+	if (AO_TURF_CHECK(src))
 		CALCULATE_NEIGHBORS(src, ao_neighbors, T, AO_TURF_CHECK(T))
 
 /proc/make_ao_image(corner, i, px = 0, py = 0, pz = 0, pw = 0)
@@ -104,21 +101,6 @@
 	}
 
 /turf/proc/update_ao()
-	var/list/cache = SSao.cache
-	CUT_AO(shadower, ao_overlays_mimic)
-	CUT_AO(src, ao_overlays)
-	if (z_flags & ZM_MIMIC_BELOW)
-		REGEN_AO(shadower, ao_overlays_mimic, ao_neighbors_mimic)
-	if (AO_TURF_CHECK(src) && !(z_flags & ZM_MIMIC_NO_AO))
-		REGEN_AO(src, ao_overlays, ao_neighbors)
-
-	update_above()
-
-#undef REGEN_AO
-#undef PROCESS_AO_CORNER
-#undef AO_TURF_CHECK
-#undef AO_SELF_CHECK
-/turf/proc/update_ao()
 	if(ao_overlays)
 		overlays -= ao_overlays
 		ao_overlays.Cut()
@@ -134,7 +116,9 @@
 		if(ao_overlays)
 			overlays |= ao_overlays
 
-#undef PROCESS_AO_CORNER 
+#undef PROCESS_AO_CORNER
+#undef AO_TURF_CHECK
+#undef AO_SELF_CHECK
 
 /turf/ChangeTurf()
 	var/old_density = density

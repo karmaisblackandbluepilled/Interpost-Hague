@@ -32,6 +32,7 @@
 			pulledby.pulling = null
 		pulledby = null
 
+/*
 	if(LAZYLEN(movement_handlers) && !ispath(movement_handlers[1]))
 		QDEL_NULL_LIST(movement_handlers)
 
@@ -41,6 +42,7 @@
 	if(virtual_mob && !ispath(virtual_mob))
 		qdel(virtual_mob)
 		virtual_mob = null
+*/
 
 /atom/movable/Bump(var/atom/A, yes)
 	if(src.throwing)
@@ -311,4 +313,4 @@
 			forceMove(T)
 
 /atom/movable/proc/get_bullet_impact_effect_type()
-	return BULLET_IMPACT_NONE 
+	return BULLET_IMPACT_NONE
