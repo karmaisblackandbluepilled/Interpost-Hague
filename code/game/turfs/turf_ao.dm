@@ -25,7 +25,7 @@
 
 /turf/proc/calculate_ao_neighbors()
 	ao_neighbors = 0
-	ao_neighbors_mimic = 0
+	//ao_neighbors_mimic = 0
 	if (!permit_ao)
 		return
 

@@ -127,8 +127,8 @@
 
 	var/turf/parent = loc
 	ASSERT(isturf(parent))
-	if (LAZYLEN(parent.ao_overlays_mimic))
-		overlays += parent.ao_overlays_mimic
+	if (LAZYLEN(parent.ao_overlays))
+		overlays += parent.ao_overlays
 
 	if (bound_overlay)
 		update_above()
@@ -143,7 +143,7 @@
 	var/mimiced_type
 
 /atom/movable/openspace/overlay/New()
-	atom_flags |= ATOM_FLAG_INITIALIZED
+	//atom_flags |= ATOM_FLAG_INITIALIZED
 	SSzcopy.openspace_overlays += 1
 
 /atom/movable/openspace/overlay/Destroy()
