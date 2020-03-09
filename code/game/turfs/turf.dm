@@ -36,14 +36,14 @@
 			src.Entered(AM)
 			return
 
-/turf/Initialize(mapload, ...)
-	var/fluid_can_pass
-	var/obj/effect/flood/flood_object
-	var/fluid_blocked_dirs = 0
-	var/flooded // Whether or not this turf is absolutely flooded ie. a water source.
-	var/footstep_type
+///turf/Initialize(mapload, ...)
+	//var/fluid_can_pass
+	//var/obj/effect/flood/flood_object
+	//var/fluid_blocked_dirs = 0
+	//var/flooded // Whether or not this turf is absolutely flooded ie. a water source.
+	//var/footstep_type
 
-	var/tmp/changing_turf
+	//var/tmp/changing_turf
 
 /turf/Initialize(mapload)
 	. = ..()
@@ -65,8 +65,8 @@
 	if (mapload && permit_ao)
 		queue_ao()
 
-/turf/on_update_icon()
-	update_flood_overlay()
+/turf/update_icon()
+	//update_flood_overlay()
 	queue_ao(FALSE)
 
 /*
@@ -98,8 +98,8 @@
 	if (bound_overlay)
 		QDEL_NULL(bound_overlay)
 
-	fluid_update()
-	REMOVE_ACTIVE_FLUID_SOURCE(src)
+	//fluid_update()
+	//REMOVE_ACTIVE_FLUID_SOURCE(src)
 	if (ao_queued)
 		SSao.queue -= src
 		ao_queued = 0

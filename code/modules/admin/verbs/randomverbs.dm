@@ -111,49 +111,9 @@
 	if (!msg)
 		return
 	to_world(msg)
+
 	log_and_message_admins(" - GlobalNarrate: [msg]")
 	feedback_add_details("admin_verb","GLN") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
-	if (style == "unsafe")
-		if (!config.allow_unsafe_narrates)
-			to_chat(user, SPAN_WARNING("Unsafe narrates are not permitted by the server configuration."))
-			return
-
-	if (style != "unsafe")
-		if (!size)
-			size = input("Pick a text size:", "Text Size") as null|anything in list(
-				"normal",
-				"small",
-				"large",
-				"huge",
-				"giant"
-			)
-		if (!size)
-			return
-
-	if (!message)
-		message = input("Message:", text("Enter the text you wish to appear to your target:")) as null|text
-		if (style != "unsafe")
-			message = sanitize(message)
-	if (!message)
-		return
-
-	var/result = message
-	if (style != "unsafe")
-		switch (style)
-			if ("italic")  result = "<i>[result]</i>"
-			if ("bold")    result = "<b>[result]</b>"
-			if ("subtle")  result = "<b>You hear a voice in your head... [result]</b>"
-			if ("notice")  result = SPAN_NOTICE(result)
-			if ("warning") result = SPAN_WARNING(result)
-			if ("danger")  result = SPAN_DANGER(result)
-			if ("occult")  result = SPAN_OCCULT(result)
-		switch (size)
-			if ("small")  result = FONT_SMALL(result)
-			if ("large")  result = FONT_LARGE(result)
-			if ("huge")   result = FONT_HUGE(result)
-			if ("giant")  result = FONT_GIANT(result)
-
-	return list(result, style, size, message)
 
 // Targetted narrate: will narrate to one specific mob
 /client/proc/cmd_admin_direct_narrate(var/mob/M)
@@ -169,19 +129,10 @@
 
 	if(!M)
 		return
+
 	var/msg = sanitize(input("Message:", text("Enter the text you wish to appear to your target:")) as text)
 
 	if( !msg )
-
-	var/style
-	var/size
-
-	if (!check_rights(R_ADMIN, FALSE))
-		style = "subtle"
-		size = "normal"
-
-	var/result = cmd_admin_narrate_helper(src, style, size)
-	if (!result)
 		return
 
 	to_chat(M, msg)
@@ -199,8 +150,6 @@
 	var/msg = sanitize(input("Message:", text("Enter the text you wish to appear to your target:")) as text)
 
 	if( !msg )
-	var/result = cmd_admin_narrate_helper(src)
-	if (!result)
 		return
 
 	var/list/listening_hosts = hosts_in_view_range(usr)
@@ -629,7 +578,6 @@ Traitors and the like can also be revived with the previous role mostly intact.
 		message_admins("[key_name_admin(usr)] deleted [O] at ([O.x],[O.y],[O.z])", 1)
 		feedback_add_details("admin_verb","DEL") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 		qdel(O)
-		SSstatistics.add_field_details("admin_verb","DEL") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 		// turfs are special snowflakes that'll explode if qdel'd
 		if (isturf(O))

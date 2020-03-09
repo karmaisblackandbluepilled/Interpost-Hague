@@ -68,6 +68,7 @@
 			if(istype(src.loc, /turf/space) || istype(src.loc, /turf/simulated/open))
 				new /obj/structure/lattice/(src.loc)
 			qdel(src)
+/*
 			deconstruct(user)
 		return
 	if(istype(C, /obj/item/weapon/gun/energy/plasmacutter))
@@ -124,10 +125,8 @@
 
 /obj/effect/catwalk_plated/Initialize(mapload)
 	. = ..()
-	var/auto_activate = mapload || (GAME_STATE < RUNLEVEL_GAME)
-	if(auto_activate)
-		activate()
-		return INITIALIZE_HINT_QDEL
+	activate()
+	return INITIALIZE_HINT_QDEL
 
 /obj/effect/catwalk_plated/CanPass()
 	return 0
@@ -163,3 +162,4 @@
 /obj/effect/catwalk_plated/white
 	icon_state = "catwalk_platedwhite"
 	plating_type = /decl/flooring/tiling/mono/white
+*/
