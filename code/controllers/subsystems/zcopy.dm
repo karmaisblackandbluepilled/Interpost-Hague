@@ -119,7 +119,7 @@ SUBSYSTEM_DEF(zcopy)
 		if (depth > OPENTURF_MAX_DEPTH)
 			depth = OPENTURF_MAX_DEPTH
 
-		var/t_target = OPENSPACE_PLANE_START + depth	// this is where the openturf gets put
+		var/t_target = OPENSPACE_PLANE + depth	// this is where the openturf gets put
 
 		// Handle space parallax.
 		if (T.below.z_eventually_space)
@@ -225,8 +225,10 @@ SUBSYSTEM_DEF(zcopy)
 		// Actually update the overlay.
 		OO.dir = OO.associated_atom.dir
 		OO.appearance = OO.associated_atom
-		OO.plane = OPENSPACE_PLANE_START + OO.depth
-
+		OO.plane = OPENSPACE_PLANE + OO.depth
+		//LMAO
+		if(!isturf(OO))
+			OO.plane += 0.1
 		OO.opacity = FALSE
 		OO.queued = FALSE
 

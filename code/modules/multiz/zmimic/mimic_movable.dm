@@ -135,7 +135,7 @@
 
 // Object used to hold a mimiced atom's appearance.
 /atom/movable/openspace/overlay
-	plane = OPENSPACE_PLANE_START
+	plane = OPENSPACE_PLANE
 	var/atom/movable/associated_atom
 	var/depth
 	var/queued = FALSE

@@ -70,10 +70,9 @@ What is the naming convention for planes or layers?
 	#define DUST_LAYER 2
 
 //Reserve planes for openspace
-#define OPENSPACE_PLANE_START -462
-#define OPENSPACE_PLANE_END -22
-#define OPENSPACE_PLANE -463
-#define OVER_OPENSPACE_PLANE -22
+#define OPENSPACE_PLANE_END -16
+#define OPENSPACE_PLANE -18
+#define OPENSPACE_LAYER -463
 
 
 #define BELOW_TURF_PLANE             -22 // objects that are below turfs. Useful for asteroid smoothing or other such magic.
@@ -217,10 +216,12 @@ What is the naming convention for planes or layers?
 
 /image/proc/plating_decal_layerise()
 	plane = ABOVE_PLATING_PLANE
+	return
 	layer = DECAL_PLATING_LAYER
 
 /image/proc/turf_decal_layerise()
 	plane = ABOVE_TURF_PLANE
+	return
 	layer = DECAL_LAYER
 
 /atom/proc/hud_layerise()
@@ -229,6 +230,7 @@ What is the naming convention for planes or layers?
 
 /atom/proc/reset_plane_and_layer()
 	plane = initial(plane)
+	return
 	layer = initial(layer)
 
 /*
