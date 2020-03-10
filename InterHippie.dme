@@ -193,7 +193,6 @@
 #include "code\controllers\subsystems\legacy.dm"
 #include "code\controllers\subsystems\machines.dm"
 #include "code\controllers\subsystems\mapping.dm"
-#include "code\controllers\subsystems\open_space.dm"
 #include "code\controllers\subsystems\psi.dm"
 #include "code\controllers\subsystems\skybox.dm"
 #include "code\controllers\subsystems\sun.dm"

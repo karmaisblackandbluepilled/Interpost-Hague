@@ -2,8 +2,7 @@
 	icon = 'icons/turf/floors.dmi'
 	level = 1
 
-	plane = TURF_PLANE
-	layer = BASE_TURF_LAYER
+	layer = TURF_LAYER
 
 	var/turf_flags
 
@@ -24,28 +23,12 @@
 	var/icon_old = null
 	var/pathweight = 1          // How much does it cost to pathfind over this turf?
 	var/blessed = 0             // Has the turf been blessed?
-
 	var/list/decals
-
 	var/movement_delay
-
-/turf/New()
-	..()
-	for(var/atom/movable/AM as mob|obj in src)
-		spawn( 0 )
-			src.Entered(AM)
-			return
-
-/turf/Initialize(mapload, ...)
-	//var/fluid_can_pass
-	//var/obj/effect/flood/flood_object
-	//var/fluid_blocked_dirs = 0
-	//var/flooded // Whether or not this turf is absolutely flooded ie. a water source.
 	/var/footstep_type
-
 	/var/tmp/changing_turf
 
-/turf/Initialize(mapload)
+/turf/Initialize(mapload, ...)
 	. = ..()
 	if(dynamic_lighting)
 		luminosity = 0

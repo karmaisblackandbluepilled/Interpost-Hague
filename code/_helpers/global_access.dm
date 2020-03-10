@@ -57,8 +57,6 @@
 			return global.SSmobs;
 		if("SSobj")
 			return global.SSobj;
-		if("SSopen_space")
-			return global.SSopen_space;
 		if("SSprocessing")
 			return global.SSprocessing;
 		if("SSskybox")
@@ -1094,8 +1092,6 @@
 			global.SSmobs=newval;
 		if("SSobj")
 			global.SSobj=newval;
-		if("SSopen_space")
-			global.SSopen_space=newval;
 		if("SSprocessing")
 			global.SSprocessing=newval;
 		if("SSskybox")
