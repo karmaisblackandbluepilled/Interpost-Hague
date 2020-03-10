@@ -1,4 +1,3 @@
-#define OPENTURF_MAX_PLANE -70
 #define OPENTURF_MAX_DEPTH 10		// The maxiumum number of planes deep we'll go before we just dump everything on the same plane.
 #define SHADOWER_DARKENING_FACTOR 0.6	// The multiplication factor for openturf shadower darkness. Lighting will be multiplied by this.
 
@@ -120,7 +119,7 @@ SUBSYSTEM_DEF(zcopy)
 		if (depth > OPENTURF_MAX_DEPTH)
 			depth = OPENTURF_MAX_DEPTH
 
-		var/t_target = OPENTURF_MAX_PLANE - depth	// this is where the openturf gets put
+		var/t_target = OPENSPACE_PLANE_START + depth	// this is where the openturf gets put
 
 		// Handle space parallax.
 		if (T.below.z_eventually_space)
@@ -159,7 +158,7 @@ SUBSYSTEM_DEF(zcopy)
 
 			// Special case: these are merged into the shadower to reduce memory usage.
 			if (object.type == /atom/movable/lighting_overlay)
-				// T.shadower.copy_lighting(object)
+				T.shadower.copy_lighting(object)
 			else
 				if (!object.bound_overlay)	// Generate a new overlay if the atom doesn't already have one.
 					object.bound_overlay = new(T)
@@ -226,7 +225,7 @@ SUBSYSTEM_DEF(zcopy)
 		// Actually update the overlay.
 		OO.dir = OO.associated_atom.dir
 		OO.appearance = OO.associated_atom
-		OO.plane = OPENTURF_MAX_PLANE - OO.depth
+		OO.plane = OPENSPACE_PLANE_START + OO.depth
 
 		OO.opacity = FALSE
 		OO.queued = FALSE

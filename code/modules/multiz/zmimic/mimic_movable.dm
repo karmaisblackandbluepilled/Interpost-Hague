@@ -76,7 +76,7 @@
 	desc = "You shouldn't see this."
 	icon = 'icons/effects/lighting_overlay.dmi'
 	icon_state = "dark"
-	plane = OPENTURF_MAX_PLANE
+	plane = OPENSPACE_PLANE
 	layer = MIMICED_LIGHTING_LAYER
 	blend_mode = BLEND_MULTIPLY
 	color = list(
@@ -95,7 +95,7 @@
 /atom/movable/openspace/multiplier/proc/copy_lighting(atom/movable/lighting_overlay/LO)
 	appearance = LO
 	layer = MIMICED_LIGHTING_LAYER
-	plane = OPENTURF_MAX_PLANE
+	plane = OPENSPACE_PLANE
 	invisibility = 0
 	blend_mode = BLEND_MULTIPLY
 	if (icon_state == null)
@@ -135,7 +135,7 @@
 
 // Object used to hold a mimiced atom's appearance.
 /atom/movable/openspace/overlay
-	plane = OPENTURF_MAX_PLANE
+	plane = OPENSPACE_PLANE_START
 	var/atom/movable/associated_atom
 	var/depth
 	var/queued = FALSE
@@ -186,7 +186,7 @@
 
 // This one's a little different because it's mimicing a turf.
 /atom/movable/openspace/turf_overlay
-	plane = OPENTURF_MAX_PLANE
+	plane = OPENSPACE_PLANE
 
 /atom/movable/openspace/turf_overlay/attackby(obj/item/W, mob/user)
 	loc.attackby(W, user)
