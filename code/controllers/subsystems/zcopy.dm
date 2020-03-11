@@ -148,7 +148,9 @@ SUBSYSTEM_DEF(zcopy)
 			T.plane = t_target
 
 		T.queue_ao()
-
+		T.filters = filter(type="blur", 0.1)
+		//T.filters += filter(type = "drop_shadow")
+		//T.filters += filter(type = "drop_shadow", color = "#04080FAA", size = -20)
 		// Add everything below us to the update queue.
 		for (var/thing in T.below)
 			var/atom/movable/object = thing
