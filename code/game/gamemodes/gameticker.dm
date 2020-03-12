@@ -336,13 +336,22 @@ var/global/datum/controller/gameticker/ticker
 			spawn
 				declare_completion()
 
-
 			spawn(50)
 				if(config.allow_map_switching && config.auto_map_vote && GLOB.all_maps.len > 1)
 					vote.automap()
 					while(vote.time_remaining)
 						sleep(50)
-
+				/*
+				else
+					var/list/maps = get_maps()
+					var/list/choices=list()
+					for(var/key in maps)
+						choices.Add(key)
+					var/mapname=pick(choices)
+					vote.chosen_map = maps[mapname] // Hack, but at this point I could not give a shit.
+					watchdog.chosen_map = copytext(mapname,1,(length(mapname)))
+					log_game("Server chose [watchdog.chosen_map]!")
+				*/
 				callHook("roundend")
 				if (universe_has_ended)
 					if(mode.station_was_nuked)

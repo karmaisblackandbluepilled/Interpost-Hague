@@ -361,6 +361,13 @@ proc/listclearnulls(list/list)
 		if(L[key] == value)
 			return key
 
+//In an associative list, get only the keys and not the elements.
+/proc/get_list_of_keys(var/list/L)
+	var/list/keys = list()
+	for(var/key in L)
+		keys += key
+	return keys
+
 /proc/count_by_type(var/list/L, type)
 	var/i = 0
 	for(var/T in L)
