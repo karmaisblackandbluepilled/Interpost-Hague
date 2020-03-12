@@ -79,7 +79,7 @@
 			maps[potential] = path + binary
 			binary = null
 		recursion_limit--
-	var/list/maplist = get_list_of_keys(maps)
+	//var/list/maplist = get_list_of_keys(maps)
 	//send2maindiscord("A map vote was initiated with these options: [english_list(maplist)].")
 	//send2mainirc("A map vote was initiated with these options: [english_list(maplist)].")
 	return maps
