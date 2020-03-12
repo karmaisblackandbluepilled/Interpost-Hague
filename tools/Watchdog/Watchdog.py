@@ -12,17 +12,17 @@ import cPickle
 import HTMLParser
 
 MONITOR = ('127.0.0.1', 1336)  # IP, port.
-RESTART_COMMAND = "/home/matthwal/Watchdog/ss13.sh"  # What shell script restarts SS13?
-COMPILE_COMMAND = "/home/matthwal/Watchdog/compile_ss13.sh"  # What shell script should be run to compile SS13?
+RESTART_COMMAND = "/home/gmod/byond/ss13.sh"  # What shell script restarts SS13?
+COMPILE_COMMAND = "/home/gmod/byond/compile_ss13.sh"  # What shell script should be run to compile SS13?
 STATS_FILE = '/home/gmod/stats.json'  # Where do you want stats.json placed?
 
 MAX_FAILURES = 3
 TIMEOUT = 30.0  # 30 seconds
 WAIT_FOR_SERVER_RESPONSE = True  # Wait for server to write ready4update.txt before running COMPILE_COMMAND?
 
-LOGPATH = '/home/matthwal/InterHippie2/crashlogs/'  # Where do you want crash.log stored?
-GAMEPATH = '/home/matthwal/InterHippie2/'  # Where is the game directory?
-CONFIGPATH = '/home/matthwal/InterHippie2/'  # Where is your current list of config files?
+LOGPATH = '/home/gmod/byond/crashlogs/'  # Where do you want crash.log stored?
+GAMEPATH = '/home/gmod/byond/tgstation/'  # Where is the game directory?
+CONFIGPATH = '/home/gmod/byond/config/'  # Where is your current list of config files?
 
 GIT_REMOTE = 'origin'
 GIT_BRANCH = 'master'
