@@ -186,7 +186,7 @@
 
 // This one's a little different because it's mimicing a turf.
 /atom/movable/openspace/turf_overlay
-	plane = OPENSPACE_PLANE
+	plane = OPENTURF_MAX_PLANE
 
 /atom/movable/openspace/turf_overlay/attackby(obj/item/W, mob/user)
 	loc.attackby(W, user)

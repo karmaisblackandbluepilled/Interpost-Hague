@@ -30,6 +30,7 @@
 	var/obj/screen/swaphands_hud_object
 	var/obj/screen/action_intent
 	var/obj/screen/move_intent
+	var/list/obj/screen/plane_master/plane_masters = list() // see "appearance_flags" in the ref, assoc list of "[plane]" = object
 
 	var/list/adding
 	var/list/other
@@ -40,6 +41,8 @@
 
 /datum/hud/New(mob/owner)
 	mymob = owner
+	if(mymob)
+		build_plane_masters(mymob)
 	instantiate()
 	..()
 
@@ -55,6 +58,7 @@
 	hotkeybuttons = null
 //	item_action_list = null // ?
 	mymob = null
+	plane_masters = null
 
 /datum/hud/proc/hidden_inventory_update()
 	if(!mymob) return
@@ -142,7 +146,6 @@
 					if(slot_wear_mask)
 						if(H.wear_mask) H.wear_mask.screen_loc = null
 
-
 /datum/hud/proc/instantiate()
 	if(!ismob(mymob)) return 0
 	if(!mymob.client) return 0
@@ -154,6 +157,20 @@
 
 /datum/hud/proc/FinalizeInstantiation(var/ui_style, var/ui_color, var/ui_alpha)
 	return
+
+/datum/hud/proc/build_plane_masters(mob/mymob)
+	for(var/mytype in subtypesof(/obj/screen/plane_master))
+		var/obj/screen/plane_master/instance = new mytype()
+		plane_masters["[instance.plane]"] = instance
+		mymob.client.screen += instance
+		instance.backdrop(mymob)
+
+/datum/hud/proc/plane_masters_update()
+	// Plane masters are always shown to OUR mob, never to observers
+	for(var/thing in plane_masters)
+		var/obj/screen/plane_master/PM = plane_masters[thing]
+		PM.backdrop(mymob)
+		mymob.client.screen += PM
 
 //Triggered when F12 is pressed (Unless someone changed something in the DMF)
 /mob/verb/button_pressed_F12(var/full = 0 as null)

@@ -70,9 +70,15 @@ What is the naming convention for planes or layers?
 	#define DUST_LAYER 2
 
 //Reserve planes for openspace
-#define OPENSPACE_PLANE_END -16
-#define OPENSPACE_PLANE -18
-#define OPENSPACE_LAYER -463
+#define OPENSPACE_LAYER      2  // For everything else
+#define OPENSPACE_TURF_LAYER 1  //For multiz turfs
+
+#define OPENSPACE_PLANE_END   -18
+#define OPENSPACE_PLANE       -18
+#define OPENTURF_MAX_PLANE    -16
+#define OVER_OPENSPACE_PLANE  -15
+#define OPENTURF_PLANE_MASTER -17
+//#define OPENSPACE_LAYER -463
 
 
 #define BELOW_TURF_PLANE             -22 // objects that are below turfs. Useful for asteroid smoothing or other such magic.
@@ -232,26 +238,3 @@ What is the naming convention for planes or layers?
 	plane = initial(plane)
 	return
 	layer = initial(layer)
-
-/*
-  PLANE MASTERS
-*/
-
-/obj/screen/plane_master
-	appearance_flags = PLANE_MASTER
-	screen_loc = "CENTER,CENTER"
-	globalscreen = 1
-
-/obj/screen/plane_master/ghost_master
-	plane = OBSERVER_PLANE
-
-/obj/screen/plane_master/ghost_dummy
-	// this avoids a bug which means plane masters which have nothing to control get angry and mess with the other plane masters out of spite
-	alpha = 0
-	appearance_flags = 0
-	plane = OBSERVER_PLANE
-
-GLOBAL_LIST_INIT(ghost_master, list(
-	new /obj/screen/plane_master/ghost_master(),
-	new /obj/screen/plane_master/ghost_dummy()
-))

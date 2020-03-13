@@ -32,6 +32,31 @@
 	density = 0
 	pathweight = 100000 //Seriously, don't try and path over this one numbnuts
 	z_flags = ZM_MIMIC_DEFAULTS | ZM_MIMIC_OVERWRITE | ZM_MIMIC_NO_AO | ZM_ALLOW_ATMOS
+	plane = OPENTURF_MAX_PLANE
+	//layer = OPENSPACE_LAYER
+
+/turf/simulated/open/New()
+	. = ..()
+	update_icon()
+
+/turf/simulated/open/Initialize()
+	. = ..()
+	update_icon()
+
+/turf/simulated/open/LateInitialize()
+	. = ..()
+	below = GetBelow(src)
+	ASSERT(HasBelow(z))
+	update_icon()
+
+/turf/simulated/open/update_icon()
+	overlays.Cut()
+	var/turf/below = GetBelow(src)
+	if(below)
+		var/image/over_OS_darkness = image('icons/turf/open_space.dmi', "black_open")
+		over_OS_darkness.plane = OVER_OPENSPACE_PLANE
+		over_OS_darkness.layer = MOB_LAYER
+		overlays += over_OS_darkness
 
 /turf/simulated/open/update_dirt()
 	return 0

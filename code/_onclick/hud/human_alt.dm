@@ -458,6 +458,7 @@
 	mymob.client.screen += hud_elements
 	mymob.client.screen += src.adding + src.hotkeybuttons
 	inventory_shown = 1
+	build_plane_masters(mymob)
 
 /mob/living/carbon/human/verb/toggle_hotkey_verbs()
 	set category = "OOC"

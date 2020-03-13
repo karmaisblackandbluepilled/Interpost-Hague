@@ -1,5 +1,5 @@
 #define OPENTURF_MAX_DEPTH 10		// The maxiumum number of planes deep we'll go before we just dump everything on the same plane.
-#define SHADOWER_DARKENING_FACTOR 0.6	// The multiplication factor for openturf shadower darkness. Lighting will be multiplied by this.
+#define SHADOWER_DARKENING_FACTOR 1.0	// The multiplication factor for openturf shadower darkness. Lighting will be multiplied by this.
 
 SUBSYSTEM_DEF(zcopy)
 	name = "Z-Copy"
@@ -119,7 +119,7 @@ SUBSYSTEM_DEF(zcopy)
 		if (depth > OPENTURF_MAX_DEPTH)
 			depth = OPENTURF_MAX_DEPTH
 
-		var/t_target = OPENSPACE_PLANE + depth	// this is where the openturf gets put
+		var/t_target = OPENTURF_MAX_PLANE - depth	// this is where the openturf gets put
 
 		// Handle space parallax.
 		if (T.below.z_eventually_space)
@@ -146,9 +146,10 @@ SUBSYSTEM_DEF(zcopy)
 			T.gender = NEUTER
 			T.opacity = FALSE
 			T.plane = t_target
+			T.update_icon()
 
 		T.queue_ao()
-		T.filters = filter(type="blur", 0.1)
+		//T.filters = filter(type="blur", 0.1)
 		//T.filters += filter(type = "drop_shadow")
 		//T.filters += filter(type = "drop_shadow", color = "#04080FAA", size = -20)
 		// Add everything below us to the update queue.
@@ -227,10 +228,12 @@ SUBSYSTEM_DEF(zcopy)
 		// Actually update the overlay.
 		OO.dir = OO.associated_atom.dir
 		OO.appearance = OO.associated_atom
-		OO.plane = OPENSPACE_PLANE + OO.depth
+		OO.plane = OPENTURF_MAX_PLANE - OO.depth
+		OO.layer = OPENSPACE_LAYER
+		switch (OO.mimiced_type)
+			if (/atom/movable/openspace/multiplier, /atom/movable/openspace/turf_overlay)
+				OO.plane -= 1
 		//LMAO
-		if(!isturf(OO))
-			OO.plane += 0.1
 		OO.opacity = FALSE
 		OO.queued = FALSE
 
