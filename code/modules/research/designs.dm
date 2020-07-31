@@ -2287,7 +2287,7 @@ CIRCUITS BELOW
 /datum/design/item/boombox/proper
 	name = "Boombox"
 	id = "boom_box"
-	req_tech = list(TECH_DATA = 3, TECH_ENGINEERING = 3, TECH_MATERIAL = 4)
+	req_tech = list(TECH_DATA = 4, TECH_ENGINEERING = 4, TECH_MATERIAL = 5)
 	build_type = PROTOLATHE
 	materials = list(DEFAULT_WALL_MATERIAL = 10000, "glass" = 5000)
 	build_path = /obj/item/music_player/boombox
